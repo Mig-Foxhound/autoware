@@ -28,6 +28,7 @@ find_package(catkin REQUIRED COMPONENTS
         waypoint_follower
         autoware_msgs
         vector_map
+        image_transport
         )
 
 find_package(OpenCV REQUIRED)
@@ -207,6 +208,22 @@ target_link_libraries(roi_extractor
 add_dependencies(region_tlr
         ${catkin_EXPORTED_TARGETS})
 
+### roi_pub ###
+include_directories(
+        ${catkin_INCLUDE_DIRS}
+        ${autoware_msgs_INCLUDE_DIRS}
+        include
+        )
+
+add_executable(roi_pub
+        nodes/roi_pub/roi_pub.cpp
+        )
+
+target_link_libraries(roi_pub
+        ${catkin_LIBRARIES}
+        ${OpenCV_LIBS}
+        libcontext
+        )
 
 ### label_maker ###
 find_package(Qt5Core REQUIRED)
@@ -299,7 +316,7 @@ else ()                          # if(EXISTS "${SSD_CAFFE_PATH}")
 endif ()                         # if(EXISTS "${SSD_CAFFE_PATH}")
 
 
-install(TARGETS region_tlr feat_proj tlr_tuner roi_extractor label_maker libcontext tl_switch
+install(TARGETS region_tlr feat_proj tlr_tuner roi_extractor roi_pub label_maker libcontext tl_switch
         ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="input_image_transport" default="compressed" />
+  <arg name="input_image_topic" default="/image_raw" />
+
+  <node pkg="trafficlight_recognizer" type="roi_pub" name="tlr_roi_pub">
+    <param name="image_transport" value="$(arg input_image_transport)" />
+    <param name="image_raw_topic" value="$(arg input_image_topic)" />
+  </node>
+</launch>
